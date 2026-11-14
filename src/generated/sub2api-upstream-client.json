@@ -1,10 +1,10 @@
 {
   "source": "Wei-Shaw/sub2api frontend/src/api/admin and backend/internal/handler/admin",
   "counts": {
-    "services": 324,
-    "types": 303,
-    "backend_types": 163,
-    "handlers": 301
+    "services": 326,
+    "types": 309,
+    "backend_types": 172,
+    "handlers": 312
   },
   "entries": [
     {
@@ -2234,6 +2234,22 @@
     {
       "kind": "upstream_service",
       "source": "settings",
+      "name": "getRegistrationEmailBlacklist",
+      "signature": "",
+      "method": "GET",
+      "endpoint": "/api/v1/admin/settings/registration-email-blacklist"
+    },
+    {
+      "kind": "upstream_service",
+      "source": "settings",
+      "name": "updateRegistrationEmailBlacklist",
+      "signature": "emails: string[],",
+      "method": "PUT",
+      "endpoint": "/api/v1/admin/settings/registration-email-blacklist"
+    },
+    {
+      "kind": "upstream_service",
+      "source": "settings",
       "name": "getStreamTimeoutSettings",
       "signature": "",
       "method": "GET",
@@ -2610,6 +2626,19 @@
     },
     {
       "kind": "upstream_type",
+      "source": "adminAccessKeys",
+      "name": "AccessRule",
+      "fields": [
+        "permissions",
+        "group_ids",
+        "all_groups",
+        "include_ungrouped",
+        "account_types",
+        "platforms"
+      ]
+    },
+    {
+      "kind": "upstream_type",
       "source": "ops",
       "name": "AccountAvailability",
       "fields": [
@@ -2769,6 +2798,35 @@
         "ack_phrase_zh",
         "ack_phrase_en",
         "acknowledgement?"
+      ]
+    },
+    {
+      "kind": "upstream_type",
+      "source": "adminAccessKeys",
+      "name": "AdminKey",
+      "fields": [
+        "id",
+        "key_prefix",
+        "created_by",
+        "created_at",
+        "updated_at",
+        "last_used_at",
+        "last_used_ip",
+        "revoked_at"
+      ]
+    },
+    {
+      "kind": "upstream_type",
+      "source": "adminAccessKeys",
+      "name": "AdminKeyInput",
+      "fields": [
+        "confirm_full_access?",
+        "name",
+        "description",
+        "enabled",
+        "expires_at",
+        "allowed_ips",
+        "policy"
       ]
     },
     {
@@ -3465,6 +3523,16 @@
     },
     {
       "kind": "upstream_type",
+      "source": "users",
+      "name": "BlacklistedEmailUser",
+      "fields": [
+        "id",
+        "email",
+        "username"
+      ]
+    },
+    {
+      "kind": "upstream_type",
       "source": "subscriptions",
       "name": "BulkAssignSubscriptionResult",
       "fields": [
@@ -3511,6 +3579,7 @@
         "output_price",
         "cache_write_price",
         "cache_write_1h_price?",
+        "cache_write_12h_price?",
         "cache_read_price",
         "fast_multiplier?",
         "flex_multiplier?",
@@ -3699,7 +3768,8 @@
         "status_code?",
         "fetched_at",
         "persisted",
-        "error?"
+        "error?",
+        "balance?"
       ]
     },
     {
@@ -4860,6 +4930,7 @@
         "output_price?",
         "cache_write_price?",
         "cache_write_1h_price?",
+        "cache_write_12h_price?",
         "cache_read_price?",
         "image_input_price?",
         "image_output_price?",
@@ -5182,6 +5253,11 @@
         "peak",
         "avg",
         "tps",
+        "output_tps?",
+        "p5",
+        "p10",
+        "p50",
+        "sample_count",
         "duration",
         "ttft"
       ]
@@ -6021,6 +6097,7 @@
         "output_price",
         "cache_write_price",
         "cache_write_1h_price?",
+        "cache_write_12h_price?",
         "cache_read_price",
         "input_multiplier",
         "output_multiplier",
@@ -6061,6 +6138,15 @@
         "require_force?",
         "balance_deducted?",
         "subscription_days_deducted?"
+      ]
+    },
+    {
+      "kind": "upstream_type",
+      "source": "settings",
+      "name": "RegistrationEmailBlacklist",
+      "fields": [
+        "emails",
+        "max"
       ]
     },
     {
@@ -6218,7 +6304,9 @@
       "fields": [
         "models",
         "metadata?",
-        "warnings?"
+        "warnings?",
+        "discovery_source?",
+        "grok_model_diagnostics?"
       ]
     },
     {
@@ -6811,6 +6899,14 @@
         "key_share_groups?",
         "psk_modes?",
         "extensions?"
+      ]
+    },
+    {
+      "kind": "upstream_type",
+      "source": "settings",
+      "name": "UpdateRegistrationEmailBlacklistResponse",
+      "fields": [
+        "added"
       ]
     },
     {
@@ -7731,6 +7827,16 @@
     },
     {
       "kind": "upstream_backend_type",
+      "source": "user_handler_email_blacklist",
+      "name": "BlacklistedEmailUser",
+      "fields": [
+        "id",
+        "email",
+        "username"
+      ]
+    },
+    {
+      "kind": "upstream_backend_type",
       "source": "subscription_handler",
       "name": "BulkAssignSubscriptionRequest",
       "fields": [
@@ -7794,6 +7900,7 @@
         "output_price",
         "cache_write_price",
         "cache_write_1h_price",
+        "cache_write_12h_price",
         "cache_read_price",
         "fast_multiplier",
         "flex_multiplier",
@@ -8287,6 +8394,7 @@
       "name": "CreateGroupRequest",
       "fields": [
         "description",
+        "i18n",
         "rate_multiplier",
         "is_exclusive",
         "daily_limit_usd",
@@ -8296,6 +8404,7 @@
         "model_pricing",
         "allow_image_generation",
         "allow_batch_image_generation",
+        "image_count_billing",
         "image_rate_independent",
         "image_rate_multiplier",
         "batch_image_discount_multiplier",
@@ -8676,6 +8785,14 @@
     },
     {
       "kind": "upstream_backend_type",
+      "source": "user_handler_email_blacklist",
+      "name": "FindBlacklistedEmailUsersRequest",
+      "fields": [
+        "emails"
+      ]
+    },
+    {
+      "kind": "upstream_backend_type",
       "source": "gemini_oauth_handler",
       "name": "GeminiExchangeCodeRequest",
       "fields": [
@@ -8999,6 +9116,7 @@
         "output_price",
         "cache_write_price",
         "cache_write_1h_price",
+        "cache_write_12h_price",
         "cache_read_price",
         "per_request_price",
         "sort_order"
@@ -9017,6 +9135,7 @@
         "output_price",
         "cache_write_price",
         "cache_write_1h_price",
+        "cache_write_12h_price",
         "cache_read_price",
         "input_multiplier",
         "output_multiplier",
@@ -9036,12 +9155,66 @@
     },
     {
       "kind": "upstream_backend_type",
+      "source": "setting_handler_email_blacklist",
+      "name": "RegistrationEmailBlacklistResponse",
+      "fields": [
+        "emails",
+        "max"
+      ]
+    },
+    {
+      "kind": "upstream_backend_type",
       "source": "subscription_handler",
       "name": "ResetSubscriptionQuotaRequest",
       "fields": [
         "daily",
         "weekly",
         "monthly"
+      ]
+    },
+    {
+      "kind": "upstream_backend_type",
+      "source": "scoped_admin_content_response",
+      "name": "scopedAnnouncementReadResponse",
+      "fields": [
+        "user_id",
+        "eligible",
+        "read_at"
+      ]
+    },
+    {
+      "kind": "upstream_backend_type",
+      "source": "custom_admin_key_codex_import",
+      "name": "scopedCodexSessionImportRequest",
+      "fields": [
+        "proxy_mode",
+        "random_proxy"
+      ]
+    },
+    {
+      "kind": "upstream_backend_type",
+      "source": "scoped_admin_content_response",
+      "name": "scopedPromoUsageResponse",
+      "fields": [
+        "id",
+        "promo_code_id",
+        "user_id",
+        "bonus_amount",
+        "used_at"
+      ]
+    },
+    {
+      "kind": "upstream_backend_type",
+      "source": "custom_admin_key_proxies",
+      "name": "scopedProxyOption",
+      "fields": [
+        "id",
+        "name",
+        "protocol",
+        "host",
+        "port",
+        "status",
+        "expires_at"
       ]
     },
     {
@@ -9109,6 +9282,7 @@
         "description",
         "platform",
         "status",
+        "i18n",
         "account_count",
         "active_account_count",
         "rate_limited_account_count",
@@ -9291,6 +9465,7 @@
       "fields": [
         "name",
         "description",
+        "i18n",
         "rate_multiplier",
         "is_exclusive",
         "daily_limit_usd",
@@ -9300,6 +9475,7 @@
         "model_pricing",
         "allow_image_generation",
         "allow_batch_image_generation",
+        "image_count_billing",
         "image_rate_independent",
         "image_rate_multiplier",
         "batch_image_discount_multiplier",
@@ -9420,6 +9596,24 @@
         "thinking_budget_enabled",
         "apikey_signature_enabled",
         "apikey_signature_patterns"
+      ]
+    },
+    {
+      "kind": "upstream_backend_type",
+      "source": "setting_handler_email_blacklist",
+      "name": "UpdateRegistrationEmailBlacklistRequest",
+      "fields": [
+        "emails"
+      ]
+    },
+    {
+      "kind": "upstream_backend_type",
+      "source": "setting_handler_email_blacklist",
+      "name": "UpdateRegistrationEmailBlacklistResponse",
+      "fields": [
+        "emails",
+        "added",
+        "max"
       ]
     },
     {
@@ -9927,6 +10121,16 @@
       "query_parameters": [],
       "request_types": [
         "BatchDeleteRequest"
+      ]
+    },
+    {
+      "kind": "upstream_handler",
+      "source": "user_handler_email_blacklist",
+      "name": "BatchDisable",
+      "path_parameters": [],
+      "query_parameters": [],
+      "request_types": [
+        "BatchDisableUsersRequest"
       ]
     },
     {
@@ -10603,6 +10807,16 @@
     },
     {
       "kind": "upstream_handler",
+      "source": "custom_admin_keys",
+      "name": "DeleteScopedAdminKeyRecord",
+      "path_parameters": [
+        "id"
+      ],
+      "query_parameters": [],
+      "request_types": []
+    },
+    {
+      "kind": "upstream_handler",
       "source": "data_management_handler",
       "name": "DeleteSourceProfile",
       "path_parameters": [
@@ -10740,6 +10954,16 @@
       "query_parameters": [],
       "request_types": [
         "AdjustSubscriptionRequest"
+      ]
+    },
+    {
+      "kind": "upstream_handler",
+      "source": "user_handler_email_blacklist",
+      "name": "FindBlacklistedEmailUsers",
+      "path_parameters": [],
+      "query_parameters": [],
+      "request_types": [
+        "FindBlacklistedEmailUsersRequest"
       ]
     },
     {
@@ -12413,6 +12637,26 @@
     },
     {
       "kind": "upstream_handler",
+      "source": "custom_admin_keys",
+      "name": "RevokeScopedAdminKey",
+      "path_parameters": [
+        "id"
+      ],
+      "query_parameters": [],
+      "request_types": []
+    },
+    {
+      "kind": "upstream_handler",
+      "source": "custom_admin_keys",
+      "name": "RotateScopedAdminKey",
+      "path_parameters": [
+        "id"
+      ],
+      "query_parameters": [],
+      "request_types": []
+    },
+    {
+      "kind": "upstream_handler",
       "source": "account_ollama_cloud_usage",
       "name": "SaveOllamaCloudUsageSession",
       "path_parameters": [],
@@ -12420,6 +12664,59 @@
       "request_types": [
         "ollamaCloudUsageSessionRequest"
       ]
+    },
+    {
+      "kind": "upstream_handler",
+      "source": "custom_admin_key_codex_import",
+      "name": "scopedAdminImportCodexSession",
+      "path_parameters": [],
+      "query_parameters": [],
+      "request_types": [
+        "scopedCodexSessionImportRequest"
+      ]
+    },
+    {
+      "kind": "upstream_handler",
+      "source": "custom_admin_key_accounts",
+      "name": "ScopedAdminKeyAccounts",
+      "path_parameters": [
+        "id"
+      ],
+      "query_parameters": [
+        "page",
+        "page_size",
+        "group",
+        "platform",
+        "type",
+        "status",
+        "search"
+      ],
+      "request_types": []
+    },
+    {
+      "kind": "upstream_handler",
+      "source": "custom_admin_key_group_models",
+      "name": "ScopedAdminKeyGroupModels",
+      "path_parameters": [
+        "id"
+      ],
+      "query_parameters": [
+        "platform"
+      ],
+      "request_types": []
+    },
+    {
+      "kind": "upstream_handler",
+      "source": "custom_admin_key_group_models",
+      "name": "scopedAdminListGroupModels",
+      "path_parameters": [],
+      "query_parameters": [
+        "status",
+        "include_inactive",
+        "search",
+        "platform"
+      ],
+      "request_types": []
     },
     {
       "kind": "upstream_handler",
@@ -13047,6 +13344,16 @@
     },
     {
       "kind": "upstream_handler",
+      "source": "setting_handler_email_blacklist",
+      "name": "UpdateRegistrationEmailBlacklist",
+      "path_parameters": [],
+      "query_parameters": [],
+      "request_types": [
+        "UpdateRegistrationEmailBlacklistRequest"
+      ]
+    },
+    {
+      "kind": "upstream_handler",
       "source": "ops_settings_handler",
       "name": "UpdateRuntimeLogConfig",
       "path_parameters": [],
@@ -13086,6 +13393,16 @@
       "request_types": [
         "service.BackupScheduleConfig"
       ]
+    },
+    {
+      "kind": "upstream_handler",
+      "source": "custom_admin_keys",
+      "name": "UpdateScopedAdminKey",
+      "path_parameters": [
+        "id"
+      ],
+      "query_parameters": [],
+      "request_types": []
     },
     {
       "kind": "upstream_handler",
